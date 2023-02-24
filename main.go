@@ -63,7 +63,7 @@ func main() {
 	basepath := server.Group("/api-v1")
 	rs.RegisterLoginRoutes(basepath)
 
-	jwtpath := server.Group("/jwt")
+	jwtpath := server.Group("/api-v2")
 	rs.RegisterJwtCheckRoutes(jwtpath)
 
 	log.Fatal(server.Run(":8080"))
