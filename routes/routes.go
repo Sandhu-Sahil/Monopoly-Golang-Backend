@@ -27,7 +27,7 @@ func (rs *RouterService) RegisterLoginRoutes(rg *gin.RouterGroup) {
 }
 
 func (rs *RouterService) RegisterJwtCheckRoutes(rg *gin.RouterGroup) {
-	userroute := rg.Group("/check")
+	userroute := rg.Group("/user")
 	userroute.Use(middlewares.JwtAuthMiddleware())
 	userroute.GET("/get/:id", rs.Usercontroller.GetUser)
 }
