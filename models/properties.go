@@ -6,7 +6,7 @@ import (
 
 type Property struct {
 	PropertyID primitive.ObjectID `json:"_id,omitempty" bson:"_id,omitempty"`
-	Name       string             `json:"name" bson:"name" binding:"required,alphanum"`
+	Name       string             `json:"name" bson:"name" binding:"required"`
 	Price      int                `json:"price,string" bson:"price" binding:"required,numeric"`
 	BuildPrice int                `json:"buildPrice,string" bson:"buildPrice" binding:"required,numeric"`
 	Rent       int                `json:"rent,string" bson:"rent" binding:"required,numeric"`
@@ -17,4 +17,5 @@ type Property struct {
 	RentHotel  int                `json:"rentHotel,string" bson:"rentHotel" binding:"required,numeric"`
 	Mortgage   int                `json:"mortgage,string" bson:"mortgage" binding:"required,numeric"`
 	Color      string             `json:"color" bson:"color" binding:"required,alphanum"`
+	Detail     string             `json:"detail" bson:"detail"`
 }
