@@ -17,14 +17,22 @@ import (
 )
 
 var (
-	server      *gin.Engine
-	us          services.UserService
-	uc          controllers.UserController
-	rs          routes.RouterService
+	server *gin.Engine
+
+	us    services.UserService
+	uc    controllers.UserController
+	rs    routes.RouterService
+	userc *mongo.Collection
+
+	ps    services.PropertyService
+	pc    controllers.PropertyController
+	rsp   routes.RouterServiceProperty
+	propc *mongo.Collection
+
 	ctx         context.Context
-	userc       *mongo.Collection
 	mongoclient *mongo.Client
 	err         error
+
 	// validate    *validator.Validate
 )
 
@@ -52,6 +60,12 @@ func init() {
 	us = services.NewUserService(userc, ctx)
 	uc = controllers.New(us)
 	rs = routes.NewRouterService(uc)
+
+	propc = mongoclient.Database(os.Getenv("DATABASE_NAME")).Collection("property")
+	ps = services.NewPropertyService(propc, ctx)
+	pc = controllers.NewProperty(ps)
+	rsp = routes.NewRouterServiceProperty(pc)
+
 	server = gin.Default()
 
 	// validate = validator.New()
@@ -65,6 +79,9 @@ func main() {
 
 	jwtpath := server.Group("/api-v2")
 	rs.RegisterJwtCheckRoutes(jwtpath)
+
+	property := server.Group("/api-v3")
+	rsp.RegisterPropertyRoutes(property)
 
 	log.Fatal(server.Run(":8080"))
 }

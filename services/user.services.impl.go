@@ -40,7 +40,7 @@ func (u *UserServiceImpl) GetUserByID(id string) (*models.User, error) {
 }
 
 func (u *UserServiceImpl) RegisterUser(user *models.User) (string, error) {
-	query := bson.D{bson.E{Key: "user_name", Value: user.UserName}}
+	query := bson.D{bson.E{Key: "email", Value: user.Email}}
 	res, err := u.usercollection.Find(u.ctx, query)
 	if err != nil {
 		return "", err
@@ -75,7 +75,7 @@ func (u *UserServiceImpl) RegisterUser(user *models.User) (string, error) {
 
 func (u *UserServiceImpl) LoginUser(user *models.User) (string, error) {
 	var userFound *models.User
-	query := bson.D{bson.E{Key: "user_name", Value: user.UserName}}
+	query := bson.D{bson.E{Key: "email", Value: user.Email}}
 	err := u.usercollection.FindOne(u.ctx, query).Decode(&userFound)
 	if err != nil {
 		return "", err
