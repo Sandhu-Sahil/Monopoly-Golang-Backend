@@ -41,6 +41,12 @@ func (uc *UserController) Register(ctx *gin.Context) {
 		return
 	}
 
+	valid := services.IsPasswordValid(user.Password)
+	if valid != true {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "Invalid Password", "message": "Password must contain UPPER CASE, LOWER CASE, SPECIAL CHARACTER, NUMBER and LENGTH>7"})
+		return
+	}
+
 	token, err := uc.UserService.RegisterUser(&user)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
